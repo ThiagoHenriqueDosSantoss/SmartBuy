@@ -5,11 +5,10 @@ import com.example.SmartBuy.dto.Usuario.CreateUsuarioDTO;
 import com.example.SmartBuy.entities.Usuario;
 import com.example.SmartBuy.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
@@ -38,5 +37,30 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
+    }
+
+    @DeleteMapping("/usuario/{idUsuario}")
+    public ResponseEntity<Boolean> deletaUsuario(@PathVariable("idUsuario") long idUsuario){
+        try{
+            boolean response = usuarioService.deletarUsuario(idUsuario);
+
+            if(response == true){
+                return ResponseEntity.ok(response);
+            }
+        } catch (Exception e) {
+            logger.severe("Erro ao deletar usuario no controller" +e);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    @PatchMapping("/usuario/{idUsuario}")
+    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable("idUsuario") long idUsuario,@RequestBody CreateUsuarioDTO dto){
+        try{
+            Usuario response = usuarioService.atualizarUsuario(idUsuario,dto);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.severe("Erro ao deletar usuario no controller" +e);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 }

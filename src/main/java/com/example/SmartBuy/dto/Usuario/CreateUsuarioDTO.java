@@ -1,65 +1,45 @@
-package com.example.SmartBuy.entities;
+package com.example.SmartBuy.dto.Usuario;
 
 import com.example.SmartBuy.enums.UsuarioEnum;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "smb_usuario")
-public class Usuario {
+public class CreateUsuarioDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario", updatable = false, nullable = false)
-
-    private long idUsuario;
-    @Column(name = "nome",nullable = false)
+    @NotBlank(message = "O campo nome é obrigatório!")
+    @Size(min = 3, max = 30)
     private String nome;
 
-    @Column(name = "email",nullable = true)
+    @NotBlank(message = "O campo email é obrigatório!")
+    @Size(min = 3, max = 30)
     private String email;
 
-    @Column(name = "senha",nullable = false)
+    @NotBlank(message = "O campo senha é obrigatório!")
     private String senha;
 
-    @Column(name = "cpf",nullable = true)
     private String cpf;
-
-    @Column(name = "cnpj",nullable = true)
     private String cnpj;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipoPessoa",nullable = true)
-    private UsuarioEnum tipoPessoa;
-
-    @Column(name = "dataCriacao")
+    @NotBlank(message = "É obrigatório assinalar o campo tipo pessoa: (Pessoa Fisica), (Pessoa Jurídica)")
+    private UsuarioEnum tipo;
     private LocalDateTime dataCriacao;
 
-    @Column(name = "dataAtualizacao")
     private LocalDateTime dataAtualizacao;
 
-    public Usuario() {
+    public CreateUsuarioDTO() {
     }
 
-    public Usuario(long idUsuario, String nome, String email, String senha, String cpf, String cnpj, UsuarioEnum tipo, LocalDateTime dataCriacao, LocalDateTime dataAtualizacao) {
-        this.idUsuario = idUsuario;
+    public CreateUsuarioDTO(String nome, String email, String senha, String cpf, String cnpj, UsuarioEnum tipo, LocalDateTime dataCriacao, LocalDateTime dataAtualizacao) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.cpf = cpf;
         this.cnpj = cnpj;
-        this.tipoPessoa = tipo;
+        this.tipo = tipo;
         this.dataCriacao = dataCriacao;
         this.dataAtualizacao = dataAtualizacao;
-    }
-
-    public long getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(long idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     public String getNome() {
@@ -102,14 +82,6 @@ public class Usuario {
         this.cnpj = cnpj;
     }
 
-    public UsuarioEnum getTipo() {
-        return tipoPessoa;
-    }
-
-    public void setTipo(UsuarioEnum tipo) {
-        this.tipoPessoa = tipo;
-    }
-
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -124,5 +96,13 @@ public class Usuario {
 
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public UsuarioEnum getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(UsuarioEnum tipo) {
+        this.tipo = tipo;
     }
 }

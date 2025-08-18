@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -147,7 +148,19 @@ public class UsuarioService {
             logger.severe("Erro ao atualizar usuário no service: " + e.getMessage());
             return null;
         }
+
     }
-
-
+    public List<Usuario> listarUsuarios(){
+        try{
+            List<Usuario> listUsuario = usuarioRepository.findAll();
+            if(listUsuario != null){
+                return listUsuario;
+            }else{
+                throw new Exception("Lista de usuários vazia!");
+            }
+        } catch (Exception e) {
+            logger.severe("ERROR: Falha ao listar usuario no services!");
+        }
+        return null;
+    }
 }

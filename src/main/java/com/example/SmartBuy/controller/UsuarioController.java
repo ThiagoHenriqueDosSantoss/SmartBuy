@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -39,7 +40,7 @@ public class UsuarioController {
 
     }
 
-    @DeleteMapping("/usuario/{idUsuario}")
+    @DeleteMapping(value = "/usuario/{idUsuario}")
     public ResponseEntity<Boolean> deletaUsuario(@PathVariable("idUsuario") long idUsuario){
         try{
             boolean response = usuarioService.deletarUsuario(idUsuario);
@@ -53,7 +54,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    @PatchMapping("/usuario/{idUsuario}")
+    @PatchMapping(value = "/usuario/{idUsuario}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable("idUsuario") long idUsuario,@RequestBody CreateUsuarioDTO dto){
         try{
             Usuario response = usuarioService.atualizarUsuario(idUsuario,dto);
@@ -62,5 +63,15 @@ public class UsuarioController {
             logger.severe("Erro ao deletar usuario no controller" +e);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+    @GetMapping(value = "/usuario")
+    public ResponseEntity<List<Usuario>> listarUsuario(){
+        try{
+            List<Usuario> listaUsuario = usuarioService.listarUsuarios();
+            return ResponseEntity.ok(listaUsuario);
+        } catch (Exception e) {
+            logger.severe("Erro ao listar usuarios no controller!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

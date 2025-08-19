@@ -1,9 +1,10 @@
 package com.example.SmartBuy.service;
 
-import com.example.SmartBuy.dto.Usuario.CreateUsuarioDTO;
+import com.example.SmartBuy.dto.Usuario.UsuarioDTO;
 import com.example.SmartBuy.entities.Usuario;
 import com.example.SmartBuy.enums.UsuarioEnum;
 import com.example.SmartBuy.repository.UsuarioRepository;
+import com.example.SmartBuy.security.CriptografiaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = false)
-    public Usuario criarUsuario(CreateUsuarioDTO dto) {
+    public Usuario criarUsuario(UsuarioDTO dto) {
         try {
             Usuario usuario = new Usuario();
 
@@ -43,7 +44,8 @@ public class UsuarioService {
             if (dto.getSenha() == null || dto.getSenha().isBlank()) {
                 throw new Exception("O campo senha é obrigatório preencher!");
             }
-            usuario.setSenha(dto.getSenha());
+            String senhaHash = CriptografiaUtil.gerarHash(dto.getSenha());
+            usuario.setSenha(senhaHash);
 
             if (dto.getTipo() == null) {
                 throw new Exception("Por favor informe um tipo de pessoa!");
@@ -93,7 +95,7 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = false)
-    public Usuario atualizarUsuario(long idUser, CreateUsuarioDTO dto) {
+    public Usuario atualizarUsuario(long idUser, UsuarioDTO dto) {
         try {
             Optional<Usuario> procuraUsuario = usuarioRepository.findById(idUser);
 

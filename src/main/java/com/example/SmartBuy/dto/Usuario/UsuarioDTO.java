@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
-public class CreateUsuarioDTO {
+public class UsuarioDTO {
 
     @NotBlank(message = "O campo nome é obrigatório!")
     @Size(min = 3, max = 30)
@@ -29,10 +29,10 @@ public class CreateUsuarioDTO {
 
     private LocalDateTime dataAtualizacao;
 
-    public CreateUsuarioDTO() {
+    public UsuarioDTO() {
     }
 
-    public CreateUsuarioDTO(String nome, String email, String senha, String cpf, String cnpj, UsuarioEnum tipo, LocalDateTime dataCriacao, LocalDateTime dataAtualizacao) {
+    public UsuarioDTO(String nome, String email, String senha, String cpf, String cnpj, UsuarioEnum tipo, LocalDateTime dataCriacao, LocalDateTime dataAtualizacao) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;

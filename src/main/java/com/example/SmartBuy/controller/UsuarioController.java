@@ -1,11 +1,10 @@
 package com.example.SmartBuy.controller;
 
 
-import com.example.SmartBuy.dto.Usuario.CreateUsuarioDTO;
+import com.example.SmartBuy.dto.Usuario.UsuarioDTO;
 import com.example.SmartBuy.entities.Usuario;
 import com.example.SmartBuy.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuario")
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody CreateUsuarioDTO dto){
+    public ResponseEntity<Usuario> criarUsuario(@RequestBody UsuarioDTO dto){
         try{
             Usuario usuario = usuarioService.criarUsuario(dto);
             return ResponseEntity.ok(usuario);
@@ -55,7 +54,7 @@ public class UsuarioController {
     }
 
     @PatchMapping(value = "/usuario/{idUsuario}")
-    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable("idUsuario") long idUsuario,@RequestBody CreateUsuarioDTO dto){
+    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable("idUsuario") long idUsuario,@RequestBody UsuarioDTO dto){
         try{
             Usuario response = usuarioService.atualizarUsuario(idUsuario,dto);
             return ResponseEntity.ok(response);

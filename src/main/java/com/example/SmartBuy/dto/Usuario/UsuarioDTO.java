@@ -1,8 +1,10 @@
 package com.example.SmartBuy.dto.Usuario;
 
+import com.example.SmartBuy.enums.SituacaoUsuarioEnum;
 import com.example.SmartBuy.enums.UsuarioEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +31,7 @@ public class UsuarioDTO {
 
     private LocalDateTime dataAtualizacao;
 
+    private SituacaoUsuarioEnum situacaoUsuario;
     public UsuarioDTO() {
     }
 
@@ -105,5 +108,13 @@ public class UsuarioDTO {
 
     public void setTipo(UsuarioEnum tipo) {
         this.tipo = tipo;
+    }
+
+    public SituacaoUsuarioEnum getSituacaoUsuario() {
+        return situacaoUsuario;
+    }
+
+    public void setSituacaoUsuario(SituacaoUsuarioEnum situacaoUsuario) {
+        this.situacaoUsuario = situacaoUsuario;
     }
 }

@@ -2,9 +2,11 @@ package com.example.SmartBuy.service;
 
 import com.example.SmartBuy.dto.Usuario.UsuarioDTO;
 import com.example.SmartBuy.entities.Usuario;
+import com.example.SmartBuy.enums.SituacaoUsuarioEnum;
 import com.example.SmartBuy.enums.UsuarioEnum;
 import com.example.SmartBuy.repository.UsuarioRepository;
 import com.example.SmartBuy.security.CriptografiaUtil;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,40 +34,41 @@ public class UsuarioService {
             Usuario usuario = new Usuario();
 
             if (dto.getNome() == null || dto.getNome().isBlank()) {
-                throw new Exception("O campo nome é obrigatório preencher!");
+                throw new BadRequestException("O campo nome é obrigatório preencher!");
             }
             usuario.setNome(dto.getNome());
 
             if (dto.getEmail() == null || dto.getEmail().isBlank()) {
-                throw new Exception("O campo email é obrigatório preencher!");
+                throw new BadRequestException("O campo email é obrigatório preencher!");
             }
             usuario.setEmail(dto.getEmail());
 
             if (dto.getSenha() == null || dto.getSenha().isBlank()) {
-                throw new Exception("O campo senha é obrigatório preencher!");
+                throw new BadRequestException("O campo senha é obrigatório preencher!");
             }
             String senhaHash = CriptografiaUtil.gerarHash(dto.getSenha());
             usuario.setSenha(senhaHash);
 
             if (dto.getTipo() == null) {
-                throw new Exception("Por favor informe um tipo de pessoa!");
+                throw new BadRequestException("Por favor informe um tipo de pessoa!");
             }
 
 
             if (dto.getTipo() == UsuarioEnum.FISICA) {
                 if (dto.getCpf() == null || dto.getCpf().isBlank()) {
-                    throw new Exception("CPF é obrigatório para pessoa física.");
+                    throw new BadRequestException("CPF é obrigatório para pessoa física.");
                 }
                 usuario.setCpf(dto.getCpf());
             } else if (dto.getTipo() == UsuarioEnum.JURIDICA) {
                 if (dto.getCnpj() == null || dto.getCnpj().isBlank()) {
-                    throw new Exception("CNPJ é obrigatório para pessoa jurídica.");
+                    throw new BadRequestException("CNPJ é obrigatório para pessoa jurídica.");
                 }
                 usuario.setCnpj(dto.getCnpj());
             } else {
-                throw new Exception("Tipo de pessoa inválido. Use FISICA ou JURIDICA.");
+                throw new BadRequestException("Tipo de pessoa inválido. Use FISICA ou JURIDICA.");
             }
 
+            usuario.setSituacaoUsuario(SituacaoUsuarioEnum.ATIVO);
             usuario.setTipo(dto.getTipo()); // seta o enum direto
             usuario.setDataCriacao(LocalDateTime.now());
 
@@ -83,7 +86,7 @@ public class UsuarioService {
             Optional<Usuario> existingUsuario =usuarioRepository.findById(idUsuario);
 
             if(existingUsuario == null){
-                throw new Exception("Usuário não encontrado ou não existe!");
+                throw new BadRequestException("Usuário não encontrado ou não existe!");
             }else{
                 usuarioRepository.deleteById(idUsuario);
                 return true;
@@ -100,7 +103,7 @@ public class UsuarioService {
             Optional<Usuario> procuraUsuario = usuarioRepository.findById(idUser);
 
             if (procuraUsuario.isEmpty()) {
-                throw new Exception("O id informado não foi encontrado!");
+                throw new BadRequestException("O id informado não foi encontrado!");
             }
 
             Usuario usuario = procuraUsuario.get();
@@ -127,7 +130,7 @@ public class UsuarioService {
                         usuario.setCnpj(null);
 
                     } else if (usuario.getCpf() == null || usuario.getCpf().isBlank()) {
-                        throw new Exception("CPF é obrigatório para pessoa física.");
+                        throw new BadRequestException("CPF é obrigatório para pessoa física.");
                     }
                 } else if (dto.getTipo() == UsuarioEnum.JURIDICA) {
                     if (dto.getCnpj() != null && !dto.getCnpj().isBlank()) {
@@ -136,13 +139,17 @@ public class UsuarioService {
                         usuario.setCpf(null);
 
                     } else if (usuario.getCnpj() == null || usuario.getCnpj().isBlank()) {
-                        throw new Exception("CNPJ é obrigatório para pessoa jurídica.");
+                        throw new BadRequestException("CNPJ é obrigatório para pessoa jurídica.");
                     }
                 } else {
-                    throw new Exception("Tipo de pessoa inválido. Use FISICA ou JURIDICA.");
+                    throw new BadRequestException("Tipo de pessoa inválido. Use FISICA ou JURIDICA.");
                 }
             }
-
+            if(dto.getSituacaoUsuario() == SituacaoUsuarioEnum.ATIVO || dto.getSituacaoUsuario() == SituacaoUsuarioEnum.INATIVO){
+                usuario.setSituacaoUsuario(dto.getSituacaoUsuario());
+            }else{
+                throw new BadRequestException("Informe uma situação para o usuário - ATIVO ou INATIVO");
+            }
             usuario.setDataAtualizacao(LocalDateTime.now());
 
             return usuarioRepository.save(usuario);

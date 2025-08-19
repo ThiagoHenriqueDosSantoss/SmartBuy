@@ -1,5 +1,6 @@
 package com.example.SmartBuy.entities;
 
+import com.example.SmartBuy.enums.SituacaoUsuarioEnum;
 import com.example.SmartBuy.enums.UsuarioEnum;
 import jakarta.persistence.*;
 
@@ -38,6 +39,10 @@ public class Usuario {
 
     @Column(name = "dataAtualizacao")
     private LocalDateTime dataAtualizacao;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "situacaoUsuario")
+    private SituacaoUsuarioEnum situacaoUsuario;
 
     public Usuario() {
     }
@@ -124,5 +129,21 @@ public class Usuario {
 
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public UsuarioEnum getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    public void setTipoPessoa(UsuarioEnum tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
+    }
+
+    public SituacaoUsuarioEnum getSituacaoUsuario() {
+        return situacaoUsuario;
+    }
+
+    public void setSituacaoUsuario(SituacaoUsuarioEnum situacaoUsuario) {
+        this.situacaoUsuario = situacaoUsuario;
     }
 }

@@ -25,22 +25,25 @@ public class LoginService {
 
     @Transactional(readOnly = true)
     public boolean autenticaUsuario(String nome, String senha){
-        try{
-            Optional<Usuario> autenticação = usuarioRepository.findByNome(nome);
+        try {
+            Optional<Usuario> autenticacao = usuarioRepository.findByNome(nome);
 
-            if(autenticação.isPresent()){
-                Usuario usuario = autenticação.get();
+            if (autenticacao.isPresent()) {
+                Usuario usuario = autenticacao.get();
 
                 if (CriptografiaUtil.verificarSenha(senha, usuario.getSenha())) {
                     return true;
                 } else {
                     logger.warning("Senha incorreta para o usuário: " + nome);
+                    return false;
                 }
+            } else {
+                logger.warning("Usuário não encontrado: " + nome);
+                return false;
             }
-            return true;
         } catch (Exception e) {
-            logger.severe("Falha para autenticar usuario no login services!" + e.getMessage());
+            logger.severe("Falha para autenticar usuário no login services! " + e.getMessage());
+            return false;
         }
-        return false;
     }
 }

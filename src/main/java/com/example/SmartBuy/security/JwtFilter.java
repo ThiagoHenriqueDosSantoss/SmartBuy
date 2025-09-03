@@ -33,19 +33,23 @@ public class JwtFilter extends HttpFilter {
         String token = authHeader.substring(7);
 
         try {
-            if (!jwtUtil.verificaToken(token)) {
+            if (!JwtUtil.verificaToken(token)) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Token inválido");
                 return;
             }
+
+            String nomeUsuario = JwtUtil.extrairUsername(token);
+            request.setAttribute("usuarioLogado", nomeUsuario);
+
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Erro na validação do token");
             return;
         }
 
-        // Token válido: prossegue com a requisição
         chain.doFilter(request, response);
     }
+
 }
 

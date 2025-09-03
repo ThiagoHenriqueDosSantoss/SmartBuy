@@ -1,5 +1,7 @@
 package com.example.SmartBuy.security;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
@@ -53,5 +55,17 @@ public class JwtUtil {
         hmac.init(keySpec);
         byte[] signatureBytes = hmac.doFinal(data.getBytes());
         return Base64.getUrlEncoder().withoutPadding().encodeToString(signatureBytes);
+    }
+    public static String extrairUsername(String token) throws Exception {
+        String[] parts = token.split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Token inválido");
+        }
+        String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]));
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(payloadJson);
+
+        return node.get("sub").asText();
     }
 }

@@ -3,7 +3,6 @@ package com.example.SmartBuy.controller;
 import com.example.SmartBuy.dto.Produto.ProdutoDTO;
 import com.example.SmartBuy.entities.Produto;
 import com.example.SmartBuy.service.ProdutoService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +22,8 @@ public class ProdutoController {
     }
 
     @GetMapping("/produto")
-    public List<ProdutoDTO> buscarProdutos(HttpServletRequest request) {
+    public List<ProdutoDTO> buscarProdutos() {
         try{
-            String usuarioLogado = (String) request.getAttribute("usuarioLogado");
             List<ProdutoDTO> response =  produtoService.buscarProdutos();
             if(response == null){
                 throw new BadRequestException("Falha ao listar produtos");

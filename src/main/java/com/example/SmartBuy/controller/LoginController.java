@@ -31,7 +31,6 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
     public ResponseEntity<?> authenticarUsuario(@RequestBody LoginRequest loginRequest) {
         try {
 

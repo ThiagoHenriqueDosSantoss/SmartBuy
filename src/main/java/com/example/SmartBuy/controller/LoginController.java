@@ -41,7 +41,7 @@ public class LoginController {
 
                 String token =  jwtUtil.gerarToken(loginRequest.getNome(), tempoToken);
 
-                return ResponseEntity.ok(token);
+                return ResponseEntity.ok(autenticacao);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
             }

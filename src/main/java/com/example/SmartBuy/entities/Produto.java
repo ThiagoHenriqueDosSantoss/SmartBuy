@@ -28,7 +28,6 @@ public class Produto {
 
     @Column(name = "linkPermanente", updatable = false, nullable = true)
     private String linkPermanente;
-    private com.example.SmartBuy.dto.Produto.ProdutoDTO.RatingDTO avaliacao;
 
 
     public Long getId() {
@@ -85,35 +84,5 @@ public class Produto {
 
     public void setLinkPermanente(String linkPermanente) {
         this.linkPermanente = linkPermanente;
-    }
-
-    public com.example.SmartBuy.dto.Produto.ProdutoDTO.RatingDTO getAvaliacao() {
-        return avaliacao;
-    }
-
-    public void setAvaliacao(com.example.SmartBuy.dto.Produto.ProdutoDTO.RatingDTO avaliacao) {
-        this.avaliacao = avaliacao;
-    }
-
-    // Classe interna para Avaliação (Rating)
-    public static class AvaliacaoDTO {
-        private Double nota;
-        private Integer quantidade;
-
-        public Double getNota() {
-            return nota;
-        }
-
-        public void setNota(Double nota) {
-            this.nota = nota;
-        }
-
-        public Integer getQuantidade() {
-            return quantidade;
-        }
-
-        public void setQuantidade(Integer quantidade) {
-            this.quantidade = quantidade;
-        }
     }
 }

@@ -6,6 +6,7 @@ import com.example.SmartBuy.service.ProdutoService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -34,5 +35,14 @@ public class ProdutoController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    @PostMapping("/produto")
+    public Produto adicionarProduto(ProdutoDTO dto){
+        try{
+            produtoService.adicionarProdutos(dto);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

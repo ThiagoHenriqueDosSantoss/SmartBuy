@@ -1,12 +1,32 @@
 package com.example.SmartBuy.entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "smb_produto")
 public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idproduto", updatable = false, nullable = false)
     private Long id;
+
+    @Column(name = "titulo", updatable = false, nullable = false)
     private String titulo;
+
+    @Column(name = "preco", updatable = false, nullable = false)
     private Double preco;
+
+    @Column(name = "descricao", updatable = false, nullable = true)
     private String descricao;
+
+    @Column(name = "categoria", updatable = false, nullable = false)
     private String categoria;
+
+    @Column(name = "imagem", updatable = false, nullable = false)
     private String imagem;
+
+    @Column(name = "linkPermanente", updatable = false, nullable = true)
     private String linkPermanente;
     private com.example.SmartBuy.dto.Produto.ProdutoDTO.RatingDTO avaliacao;
 

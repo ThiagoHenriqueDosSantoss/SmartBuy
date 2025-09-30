@@ -1,6 +1,9 @@
 package com.example.SmartBuy.service;
 
 import com.example.SmartBuy.dto.Produto.ProdutoDTO;
+import com.example.SmartBuy.entities.Produto;
+import com.example.SmartBuy.repository.ProdutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +17,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class ProdutoService {
     private final RestTemplate restTemplate;
+
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     public ProdutoService(){
         this.restTemplate = new RestTemplate();
@@ -61,5 +67,22 @@ public class ProdutoService {
             e.printStackTrace();
             return new ArrayList<>();
         }
+    }
+    public Produto adicionarProdutos(ProdutoDTO dto){
+        try{
+            Produto produto = new Produto();
+            produto.setTitulo(dto.getTitle());
+            produto.setPreco(dto.getPrice());
+            produto.setDescricao(dto.getDescription());
+            produto.setCategoria(dto.getCategory());
+            produto.setImagem(dto.getImage());
+
+            produtoRepository.save(produto);
+
+            return produto;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

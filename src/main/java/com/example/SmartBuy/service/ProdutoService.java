@@ -6,6 +6,7 @@ import com.example.SmartBuy.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URLDecoder;
@@ -43,19 +44,19 @@ public class ProdutoService {
                 ProdutoDTO dto = new ProdutoDTO();
 
                 dto.setId(((Number) item.get("id")).longValue());
-                dto.setTitle((String) item.get("title"));
-                dto.setPrice(((Number) item.get("price")).doubleValue());
-                dto.setDescription((String) item.get("description"));
-                dto.setCategory((String) item.get("category"));
-                dto.setImage((String) item.get("image"));
-                dto.setPermalink("https://fakestoreapi.com/products/" + item.get("id"));
+                dto.setTitulo((String) item.get("title"));
+                dto.setPreco(((Number) item.get("price")).doubleValue());
+                dto.setDescricao((String) item.get("description"));
+                dto.setCategoria((String) item.get("category"));
+                dto.setImagem((String) item.get("image"));
+                dto.setLinkPermanente("https://fakestoreapi.com/products/" + item.get("id"));
 
                 Map<String, Object> ratingMap = (Map<String, Object>) item.get("rating");
                 if (ratingMap != null) {
-                    ProdutoDTO.RatingDTO ratingDTO = new ProdutoDTO.RatingDTO();
-                    ratingDTO.setRate(((Number) ratingMap.get("rate")).doubleValue());
-                    ratingDTO.setCount(((Number) ratingMap.get("count")).intValue());
-                    dto.setRating(ratingDTO);
+                    ProdutoDTO.AvaliacaoDTO ratingDTO = new ProdutoDTO.AvaliacaoDTO();
+                    ratingDTO.setNota(((Number) ratingMap.get("rate")).doubleValue());
+                    ratingDTO.setQuantidade(((Number) ratingMap.get("count")).intValue());
+                    dto.setAvaliacao(ratingDTO);
                 }
 
                 produtos.add(dto);
@@ -68,14 +69,15 @@ public class ProdutoService {
             return new ArrayList<>();
         }
     }
+    @Transactional(rollbackFor = Exception.class)
     public Produto adicionarProdutos(ProdutoDTO dto){
         try{
             Produto produto = new Produto();
-            produto.setTitulo(dto.getTitle());
-            produto.setPreco(dto.getPrice());
-            produto.setDescricao(dto.getDescription());
-            produto.setCategoria(dto.getCategory());
-            produto.setImagem(dto.getImage());
+            produto.setTitulo(dto.getTitulo());
+            produto.setPreco(dto.getPreco());
+            produto.setDescricao(dto.getDescricao());
+            produto.setCategoria(dto.getCategoria());
+            produto.setImagem(dto.getImagem());
 
             produtoRepository.save(produto);
 

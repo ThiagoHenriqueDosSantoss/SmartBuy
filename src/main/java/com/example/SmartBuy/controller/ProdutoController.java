@@ -7,6 +7,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,12 +38,12 @@ public class ProdutoController {
         }
     }
     @PostMapping("/produto")
-    public Produto adicionarProduto(ProdutoDTO dto){
+    public Produto adicionarProduto(@RequestBody ProdutoDTO dto){
         try{
-            produtoService.adicionarProdutos(dto);
+            Produto res = produtoService.adicionarProdutos(dto);
+            return res;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 }

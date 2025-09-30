@@ -2,14 +2,13 @@ package com.example.SmartBuy.dto.Produto;
 
 public class ProdutoDTO {
     private Long id;
-    private String title;
-    private Double price;
-    private String description;
-    private String category;
-    private String image;
-    private String permalink;
-    private RatingDTO rating;
-
+    private String titulo;
+    private Double preco;
+    private String descricao;
+    private String categoria;
+    private String imagem;
+    private String linkPermanente;
+    private AvaliacaoDTO avaliacao;
 
     public Long getId() {
         return id;
@@ -19,80 +18,81 @@ public class ProdutoDTO {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getPreco() {
+        return preco;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPreco(Double preco) {
+        this.preco = preco;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
-    public String getImage() {
-        return image;
+    public String getImagem() {
+        return imagem;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 
-    public String getPermalink() {
-        return permalink;
+    public String getLinkPermanente() {
+        return linkPermanente;
     }
 
-    public void setPermalink(String permalink) {
-        this.permalink = permalink;
+    public void setLinkPermanente(String linkPermanente) {
+        this.linkPermanente = linkPermanente;
     }
 
-    public RatingDTO getRating() {
-        return rating;
+    public AvaliacaoDTO getAvaliacao() {
+        return avaliacao;
     }
 
-    public void setRating(RatingDTO rating) {
-        this.rating = rating;
+    public void setAvaliacao(AvaliacaoDTO avaliacao) {
+        this.avaliacao = avaliacao;
     }
 
-    public static class RatingDTO {
-        private Double rate;
-        private Integer count;
+    // Classe interna para avaliação do produto
+    public static class AvaliacaoDTO {
+        private Double nota;
+        private Integer quantidade;
 
-        public Double getRate() {
-            return rate;
+        public Double getNota() {
+            return nota;
         }
 
-        public void setRate(Double rate) {
-            this.rate = rate;
+        public void setNota(Double nota) {
+            this.nota = nota;
         }
 
-        public Integer getCount() {
-            return count;
+        public Integer getQuantidade() {
+            return quantidade;
         }
 
-        public void setCount(Integer count) {
-            this.count = count;
+        public void setQuantidade(Integer quantidade) {
+            this.quantidade = quantidade;
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.SmartBuy.controller;
 
 import com.example.SmartBuy.dto.Usuario.UsuarioDTO;
 import com.example.SmartBuy.entities.LoginRequest;
+import com.example.SmartBuy.entities.TokenResponse;
 import com.example.SmartBuy.security.JwtUtil;
 import com.example.SmartBuy.service.LoginService;
 import com.example.SmartBuy.service.UsuarioService;
@@ -41,7 +42,9 @@ public class LoginController {
 
                 String token =  jwtUtil.gerarToken(loginRequest.getNome(), tempoToken);
 
-                return ResponseEntity.ok(token);
+                TokenResponse response = new TokenResponse(token);
+
+                return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
             }
